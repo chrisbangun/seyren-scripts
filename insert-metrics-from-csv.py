@@ -4,7 +4,7 @@ import requests
 import json
 import csv
 class CSVMetrics:
-    URL = "http://seyren.traveloka.com/api/checks"
+    URL = "http://seyren.[empty].com/api/checks"
     file = ""
     def __init__(self,_file):
         self.file = _file
