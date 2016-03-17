@@ -8,14 +8,14 @@ import logging
 
 class Graphite:
   mongo_isPrimary_metrics = [
-   "collectd.mongodata*_traveloka_com.mongostat.counter.mongo_primary",
-   "collectd.mongofb*_traveloka_com.mongostat.counter.mongo_primary",
-   "collectd.mongohotel*_traveloka_com.mongostat.counter.mongo_primary",
-   "collectd.mongohnet*_traveloka_com.mongostat.counter.mongo_primary"
+   "[empty]",
+   "[empty]",
+   "[empty]",
+   "[empty]"
    ]
   
   mongo_primary_metrics = []
-  URL = "http://graphiteweb.traveloka.com/render?target=#&format=json"
+  URL = "http://graphiteweb.[empty].com/render?target=#&format=json"
 
   logging.basicConfig(level=logging.INFO)
   logger = logging.getLogger(__name__)
