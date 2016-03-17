@@ -14,7 +14,7 @@ class Seyren:
      "mongohnet"
   ]
 
-  URL = "http://seyren.traveloka.com/api/checks"
+  URL = "http://seyren.[empty].com/api/checks"
   results = []
   metric_names = []
 
