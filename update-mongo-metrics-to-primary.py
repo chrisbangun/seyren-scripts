@@ -10,7 +10,7 @@ from seyren_get_mongo_checks import Seyren
 
 class MongoAlert:
   
-  URL = "http://seyren.traveloka.com/api/checks"
+  URL = "http://seyren.[empty].com/api/checks"
   metric_names = []
   seyren_json_data = []
   current_primary_mongos = []
@@ -26,10 +26,10 @@ class MongoAlert:
 
 
   old_primary_mongos = [
-    "collectd.mongodata01_traveloka_com.mongostat.counter.mongo_primary",
-    "collectd.mongofb02_traveloka_com.mongostat.counter.mongo_primary",
-    "collectd.mongohotel01_traveloka_com.mongostat.counter.mongo_primary",
-    "collectd.mongohnet03_traveloka_com.mongostat.counter.mongo_primary"
+    "[empty]",
+    "[empty]",
+    "[empty]",
+    "[empty]"
   ]
   
   def __get_mongo_machine(self,primary_mongos):
