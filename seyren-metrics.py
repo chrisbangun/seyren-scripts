@@ -6,7 +6,7 @@ import json
 import csv
 
 class Seyren:
-   URL = "http://seyren.traveloka.com/api/checks"
+   URL = "http://seyren.[empty].com/api/checks"
    results = []
    
    def __init__(self):
