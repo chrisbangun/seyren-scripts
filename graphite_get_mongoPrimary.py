@@ -46,6 +46,7 @@ class Graphite:
     for d in data:
 
       if abs(d['datapoints'][0][0] - 1.0) < 0.0000001:
+        self.logger.info("[Mongo Primary %s]", d['target'])
         return d['target']
 
   def get_mongo_primary_metrics(self):
