@@ -7,6 +7,9 @@ import logging
 import collections
 import slacker
 import logging
+from dbConnector import DBConnector
+import datetime
+from datetime import timedelta
 
 class UnknownState:
 	URL = "http://seyrendotcom/api/checks"
@@ -49,7 +52,6 @@ class UnknownState:
 	
 	def notify(self,target,key,target_type):
 		slack = slacker.Slacker(self.API_TOKEN)
-		print target
 		message_to_send = "Hello, I've been asked by @release-eng to notify you that "+str(key)+" is currently in an *unkown* state"
 		continue_text = "Please kindly check your metrics, machine or anything related to this. Thanks :bow: :bow:"
 		user_id = ""
@@ -75,11 +77,54 @@ class UnknownState:
 				self.notify(_subscriber,key,"channel")
 
 	def notify_subscriber(self):
-		for key in self.checksDict.keys():
-			self.identify_subscriber_type(self.checksDict[key],key)
+		self.logger.info("total checks: %s", self.total_checks)
+		self.logger.info ("unknown checks: %s",self.unknown_checks)
+		threshold_for_alert = self.total_checks/3
+		self.logger.info ("threshold_for_alert: %s", threshold_for_alert)
+
+		if self.unknown_checks < threshold_for_alert:
+			for key in self.checksDict.keys():
+				self.identify_subscriber_type(self.checksDict[key],key)
+		else:
+			self.notify("adichris","all checks","user")
+
+
+
+class Main:
+	unknownState = None
+	dbConnector = None
+
+	def __init__(self):
+		self.unknownState = UnknownState()
+		self.dbConnector = DBConnector()
+
+	def validate_the_unknown_state(self):
+		checkDictionary = self.unknownState.get_unknown_state_checks()
+		delete_table = False
+		for key in checkDictionary.keys():
+			if self.dbConnector.if_exist_on_table(key):
+				if self.worth_to_notify(key):
+					delete_table = True
+					self.unknownState.notify_subscriber()
+			else:
+				self.dbConnector.insert_data(key,datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+		if delete_table:
+			self.dbConnector.drop_table()
+		self.dbConnector.close()
+
+	def worth_to_notify(self,key):
+		state_time = self.dbConnector.get_state_time_for_check(key)
+		current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+		current_time = datetime.datetime.now().strptime(str(current_time),"%Y-%m-%d %H:%M:%S")
+		time_difference = current_time - state_time[0]
+		time_difference_in_minutes = time_difference.total_seconds() / 60
+		print time_difference_in_minutes
+		if time_difference_in_minutes >= 45 :
+			return True
+		return False
+
 
 
 if __name__ == '__main__':
-	unknownState = UnknownState()
-	unknownState.get_unknown_state_checks()
-	unknownState.notify_subscriber()
+	main = Main()
+	main.validate_the_unknown_state()
