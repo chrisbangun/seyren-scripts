@@ -110,7 +110,7 @@ class Main:
 				self.dbConnector.insert_data(key,datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 		if delete_table:
 			self.dbConnector.drop_table()
-		self.dbConnector.close()
+		self.dbConnector.close_db()
 
 	def worth_to_notify(self,key):
 		state_time = self.dbConnector.get_state_time_for_check(key)
