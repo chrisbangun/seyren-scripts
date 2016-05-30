@@ -18,7 +18,7 @@ class DBConnector:
 		self._cursor.execute(''' SELECT COUNT(*) FROM sqlite_master WHERE type = "table" AND name = "checks"''')
 		result = self._cursor.fetchone()
 		if not bool(result[0]):
-			print "creating a new table named checks..."
+			print "creating a new table named 'checks'..."
 			self._cursor.execute('''
 					CREATE TABLE checks(id INTEGER PRIMARY KEY, name TEXT, state_time timestamp)
 				''')
@@ -28,7 +28,7 @@ class DBConnector:
 			print "connected to: checks-seyren.db"
 			print "at:",str(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 			print "table's name: checks"
-			
+
 
 	def insert_data(self,checks_name,date):
 		self._cursor.execute('''
@@ -58,6 +58,7 @@ class DBConnector:
 
 	def drop_table(self):
 		self._cursor.execute('''DROP TABLE checks''')
+		print "test"
 		self._db.commit()
 
 	def close_db(self):
@@ -65,6 +66,5 @@ class DBConnector:
 
 if __name__ == '__main__':
 	dbConnector = DBConnector()
+	#dbConnector.drop_table()
 	dbConnector.close_db()
-
-
