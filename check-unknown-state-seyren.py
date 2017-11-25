@@ -11,10 +11,10 @@ import datetime
 from datetime import timedelta
 
 class UnknownState:
-    URL = "http://seyren.traveloka.com/api/checks"
+    URL = "{fill_url}"
     results = []
     checksDict = {}
-    API_TOKEN= 'xoxb-18174125041-fLDaQzlmFgp2TUke2HCJSs0o'
+    API_TOKEN= 'put_token'
 
     unknown_checks = 0
     total_checks = 0
@@ -75,7 +75,6 @@ class UnknownState:
         for subscriber in temp_subscriber:
             _subscriber = str(subscriber)
             if(_subscriber.startswith('@')):
-                print "AAAAAAA"
                 self.notify(_subscriber[1:],key,"user")
                 #self.notify("kevin",key,"user")
             elif(_subscriber.startswith('#')):
